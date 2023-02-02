@@ -1,5 +1,6 @@
 import { BehaviorSubject, from, of } from "rxjs";
-import { catchError, map, switchMap, tap } from "rxjs/operators"
+import { catchError, delay, map, switchMap, tap } from "rxjs/operators"
+import { faucet$ } from "./api";
 import { client } from './aptos';
 import { pushBanner$ } from "./ui";
 
@@ -11,6 +12,7 @@ export const signin$ = () => {
   if (!window.aptos) {
     alert("Please Install Petra Wallet")
     window.open('https://chrome.google.com/webstore/detail/petra-aptos-wallet/ejjladinnckdgjemekebdpeokbikhfci')
+    return of(false)
   }
 
   return from(window.aptos.connect()).pipe(
@@ -21,15 +23,33 @@ export const signin$ = () => {
       const address = result?.address
       if (!result || !address) return of(false)
 
-      return from(client.getAccount(address)).pipe(
-        tap((accountInfo) => {
-          walletAddress$.next(address)
-          accountInfo$.next(accountInfo)
+      return from(window.aptos.network()).pipe(
+        switchMap((network) => {
 
-          pushBanner$.next({
-            type: "success",
-            content: "Wallet connected.",
-          })
+          if (network !== "Devnet") {
+            alert("Please change network to Devnet.")
+            return of(false)
+          }
+
+          return from(client.getAccount(address)).pipe(
+            catchError((err) => {
+              return faucet$({ address }).pipe(
+                delay(1000),
+                switchMap(() => {
+                  return from(client.getAccount(address))
+                })
+              )
+            }),
+            tap((accountInfo) => {
+              walletAddress$.next(address)
+              accountInfo$.next(accountInfo)
+
+              pushBanner$.next({
+                type: "success",
+                content: "Wallet connected.",
+              })
+            })
+          )
         })
       )
     })
