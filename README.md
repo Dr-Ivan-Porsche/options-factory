@@ -3,7 +3,11 @@
 An Option Issuance Infra for APTOS
 
 ## Links
-Website: https://options-factory.net/
+Website (Aptos Devnet): https://options-factory.net/  
+
+Resource Account Address:
+https://explorer.aptoslabs.com/account/0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03
+
 
 ## Introduction
 Option Factory will further support the function to create Structure Product by wrapping FT and NFT.
