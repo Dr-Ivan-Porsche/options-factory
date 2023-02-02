@@ -34,7 +34,6 @@ class Header extends Component<Props> {
     
   render() {
 
-    console.log(moduleData$.value, 'moduleData$.value')
     const putCallRatio = Number(
         new BigNumber(moduleData$.value?.total_put_volume)
         .div(Number(moduleData$.value?.total_call_volume) || 1)

@@ -13,6 +13,7 @@
     "@uiball/loaders": "^1.2.6",
     "@walletconnect/client": "^1.8.0",
     "@walletconnect/qrcode-modal": "^1.8.0",
+    "aptos": "^1.6.0",
     "bignumber.js": "^9.1.0",
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",

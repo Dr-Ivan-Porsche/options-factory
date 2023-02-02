@@ -159,6 +159,7 @@ type GetPayoutArg = {
   amount: number | string
 }
 export const getPayout$ = ({ receiver, name, amount }: GetPayoutArg) => {
+  console.log({ receiver, name, amount }, `{ receiver, name, amount }`)
   return from(
     client.client.view.view({
       function: `${CONTRACT_ADDRESS}::controller::get_payout`,
