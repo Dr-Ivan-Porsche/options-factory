@@ -174,7 +174,12 @@ class ExecuteModal extends Component<Props> {
                 </span>
                 <img
                   className="w-[20px] h-[20px] mr-[8px]"
-                  src={isCall ? "/assets/images/aptos.svg" : "/assets/images/usdc.svg"}
+                  src={isCall
+                    ? isLong
+                      ? "/assets/images/aptos.svg" 
+                      : "/assets/images/usdc.svg"
+                    : "/assets/images/usdc.svg"
+                  }
                 />
                 <span
                   className={join(
