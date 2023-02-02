@@ -67,6 +67,11 @@ class Issuance extends Component<Props> {
     // Try to signin
     fromEvent(window, 'load').pipe(
       switchMap(() => {
+
+        window.aptos.onAccountChange(() => {
+          signin$().subscribe()
+        })
+
         return signin$()
       }),
       takeUntil(this.destroy$)

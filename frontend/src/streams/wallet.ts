@@ -1,4 +1,4 @@
-import { BehaviorSubject, from, of } from "rxjs";
+import { BehaviorSubject, from, of, timer } from "rxjs";
 import { catchError, delay, map, switchMap, tap } from "rxjs/operators"
 import { faucet$ } from "./api";
 import { client } from './aptos';
