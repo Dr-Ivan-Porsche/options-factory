@@ -1,0 +1,6 @@
+<svg width="36" height="24" viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg">
+    <g transform="matrix(1 0 0 -1 0 24)" fill="none" fill-rule="evenodd">
+        <rect fill="none" width="36" height="24" rx="12"/>
+        <path fill="#C7CCDB" d="m18 16 6.5-6.5h-13z"/>
+    </g>
+</svg>

@@ -1,0 +1,15 @@
+[package]
+name = 'OptionsFactory'
+version = '0.1.0'
+upgrade_policy = "compatible"
+
+[addresses]
+deployer = "0x52746eee4d2ecc79f940f617d1e98f885467c185e93a444bc6231a8b1960c48a"
+aux = "0xea383dc2819210e6e427e66b2b6aa064435bf672dc4bdc55018049f0c361d01a"
+admin = "0x164d092d0a6695a8d75db1c734b4d7a44550bc96472136beeca5830ce99f657e"
+# admin-dev = "0x926229c5805a05c3234c56cd090c9b5188cf1c4ee1a9fca2898c84e510be041b"
+
+[dependencies]
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "c4bbe77e04019226468b16f2de79f85a635a29fa" }
+AptosToken = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-token", rev = "c4bbe77e04019226468b16f2de79f85a635a29fa" }
+aux = { git = "https://github.com/aux-exchange/aux-exchange.git", subdir = "aptos/contract/aux", rev = "22f308e81eba744bac2752a326b1f0ed659a1054" }
