@@ -47,7 +47,7 @@ class ExecuteModal extends Component<Props> {
       this.forceUpdate()
     })
 
-    const { name, amount, isCall } = this.props
+    const { name, amount, isCall, isLong } = this.props
 
     this.bloc.isCalculating$.next(true)
 
@@ -57,7 +57,9 @@ class ExecuteModal extends Component<Props> {
       amount,
     }).subscribe((payout) => {
       const payoutAmount = isCall 
-        ? new BigNumber(payout).div(10 ** 8).toNumber() // APT 
+        ? isLong 
+          ? new BigNumber(payout).div(10 ** 8).toNumber() // APT 
+          : new BigNumber(payout).div(10 ** 6).toNumber()
         : new BigNumber(payout).div(10 ** 6).toNumber() // USDC
       this.bloc.payout$.next(payoutAmount)
 
@@ -113,7 +115,9 @@ class ExecuteModal extends Component<Props> {
 
     const youGetAmount = this.bloc.payout$.value || 0
     const youGetAmountInDollar = isCall 
-      ? new BigNumber(aptosPrice$.value).multipliedBy(youGetAmount).toFixed(2)
+      ? isLong 
+        ? new BigNumber(aptosPrice$.value).multipliedBy(youGetAmount).toFixed(2)
+        : youGetAmount.toFixed(2)
       : youGetAmount.toFixed(2)
 
     return (

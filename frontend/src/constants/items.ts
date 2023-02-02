@@ -1,7 +1,6 @@
 import { range } from "lodash"
 
 export const MATURITY_LIST = [
-  new Date("2023-02-02 08:00 UTC+0"),
   new Date("2023-02-03 08:00 UTC+0"),
   new Date("2023-02-10 08:00 UTC+0"),
   new Date("2023-02-17 08:00 UTC+0"),
