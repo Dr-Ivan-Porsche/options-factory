@@ -5,7 +5,7 @@
 |Name|Link|
 |------|------------------|
 |Website (devnet)|[https://options-factory.net](https://options-factory.net)|
-|Contract (devnet)|[0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03](https://explorer.aptoslabs.com/account/0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03)|
+|Contract (devnet)|[0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03](https://explorer.aptoslabs.com/account/0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03?network=devnet)|
 
 ## Introduction
 Option Factory will further support the function to create Structure Product by wrapping FT and NFT.
