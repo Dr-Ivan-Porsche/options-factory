@@ -1,13 +1,11 @@
 # Options Factory
 
-An Option Issuance Infra for APTOS
+<p align="center"><img width="100%" alt="Screenshot 2023-02-07 at 3 57 52 PM" src="https://user-images.githubusercontent.com/38854208/217198569-6a5bb725-247e-4cb3-99ce-c3520f4b9592.png"></p>
 
-## Links
-Website (Aptos Devnet): https://options-factory.net/  
-
-Resource Account Address:
-https://explorer.aptoslabs.com/account/0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03
-
+|Name|Link|
+|------|------------------|
+|Website (devnet)|[https://options-factory.net](https://options-factory.net)|
+|Contract (devnet)|[0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03](https://explorer.aptoslabs.com/account/0x2eb74655638e224b68b554bdc86efb22ad3f54fdc87602c2dd7bc6afac95fb03)|
 
 ## Introduction
 Option Factory will further support the function to create Structure Product by wrapping FT and NFT.
@@ -45,6 +43,10 @@ In this case, the short option holder can exercise the short option and claim th
 ### Option Settlement
 In the case of expiration with an In-The-Money (ITM), the Long option holder can exercise their option. 
 In this case, the Long option holder pays an asset equal to the strike price and claim the collateral deposited by the option issuer from the Option Factory.
+
+## Architecture
+
+<p align="center"><img width="100%" alt="Screenshot 2023-02-07 at 3 55 00 PM" src="https://user-images.githubusercontent.com/38854208/217197922-2df31cbd-e1d2-45f1-af90-63ab1d24b733.png"></p>
 
 ## Mathematics
 The Black-Scholes formula for 
