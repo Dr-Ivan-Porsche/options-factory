@@ -46,7 +46,7 @@ In this case, the Long option holder pays an asset equal to the strike price and
 
 ## Architecture
 
-<p align="center"><img width="100%" alt="Screenshot 2023-02-07 at 3 55 00 PM" src="https://user-images.githubusercontent.com/38854208/217197922-2df31cbd-e1d2-45f1-af90-63ab1d24b733.png"></p>
+<p align="center"><img width="100%" alt="Screenshot 2023-02-07 at 4 23 36 PM" src="https://user-images.githubusercontent.com/38854208/217204306-349f4ac8-6a17-494f-b009-36c1d24c4109.png"></p>
 
 ## Mathematics
 The Black-Scholes formula for 
