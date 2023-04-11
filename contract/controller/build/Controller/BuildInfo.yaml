@@ -1,0 +1,35 @@
+---
+compiled_package_info:
+  package_name: Controller
+  address_alias_instantiation:
+    Extensions: "0000000000000000000000000000000000000000000000000000000000000001"
+    admin: 164d092d0a6695a8d75db1c734b4d7a44550bc96472136beeca5830ce99f657e
+    aptos_framework: "0000000000000000000000000000000000000000000000000000000000000001"
+    aptos_std: "0000000000000000000000000000000000000000000000000000000000000001"
+    aptos_token: "0000000000000000000000000000000000000000000000000000000000000003"
+    collection: b23e57244b7fa607f1a614ef7e3f7df9b6fa716ee623d878301724cbc62c1846
+    controller: 6a210bc15ccb5933db2a28c3fa5c470d7ac8d87178daee1876689ae4d80c0973
+    core_resources: 000000000000000000000000000000000000000000000000000000000a550c18
+    std: "0000000000000000000000000000000000000000000000000000000000000001"
+    vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
+    wrapped_coin: 5e156f1207d0ebfa19a9eeff00d62a282278fb8719f4fab3a586a0a2c0fffbea
+  source_digest: 4D6DD8916E2D3E3207BE1274AC971EBA0C2095A030B2EE9C78109C596B63A25F
+  build_flags:
+    dev_mode: false
+    test_mode: false
+    generate_docs: false
+    generate_abis: false
+    install_dir: ~
+    force_recompilation: false
+    additional_named_addresses:
+      controller: 6a210bc15ccb5933db2a28c3fa5c470d7ac8d87178daee1876689ae4d80c0973
+    architecture: ~
+    fetch_deps_only: false
+    skip_fetch_latest_git_deps: false
+dependencies:
+  - AptosFramework
+  - AptosStdlib
+  - AptosToken
+  - Collection
+  - MoveStdlib
+  - WrappedCoin

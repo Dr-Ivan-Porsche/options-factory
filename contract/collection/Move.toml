@@ -1,0 +1,17 @@
+[package]
+name = 'Collection'
+version = '1.0.0'
+
+[addresses]
+admin = "0x164d092d0a6695a8d75db1c734b4d7a44550bc96472136beeca5830ce99f657e"
+collection = "_"
+
+[dependencies.AptosFramework]
+git = 'https://github.com/aptos-labs/aptos-core.git'
+rev = 'mainnet'
+subdir = 'aptos-move/framework/aptos-framework'
+
+[dependencies.AptosToken]
+git = 'https://github.com/aptos-labs/aptos-core.git'
+rev = 'mainnet'
+subdir = 'aptos-move/framework/aptos-token'
