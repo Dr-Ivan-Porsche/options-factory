@@ -3,13 +3,16 @@ name = 'Controller'
 version = '1.0.0'
 
 [addresses]
+controller = "_"
 admin = "0x164d092d0a6695a8d75db1c734b4d7a44550bc96472136beeca5830ce99f657e"
 wrapped_coin = "0x5e156f1207d0ebfa19a9eeff00d62a282278fb8719f4fab3a586a0a2c0fffbea"
 collection = "0xb23e57244b7fa607f1a614ef7e3f7df9b6fa716ee623d878301724cbc62c1846"
+price_feed = "0x515797702e215d28be31d8eefac1e6a82c70da38c114b79016988c3511ee7297"
 
 [dependencies]
 AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "mainnet" }
 AptosToken = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-token", rev = "mainnet" }
 Collection= { local = "../collection" }
 WrappedCoin = { local = "../coin" }
+PriceFeed = { local = "../price_feed" }
 # WrappedCoin = { git = "https://github.com/wormhole-foundation/wormhole.git", subdir = "aptos/coin", rev = "145ba6df0f1e62ff54e82883e9e7b0dc4f359bce" }

@@ -8,12 +8,16 @@ compiled_package_info:
     aptos_std: "0000000000000000000000000000000000000000000000000000000000000001"
     aptos_token: "0000000000000000000000000000000000000000000000000000000000000003"
     collection: b23e57244b7fa607f1a614ef7e3f7df9b6fa716ee623d878301724cbc62c1846
-    controller: 6a210bc15ccb5933db2a28c3fa5c470d7ac8d87178daee1876689ae4d80c0973
+    controller: a1eb5b8d88f1d3f9b50d0276ad8486ba878e6bd7cc36ba3d9671197a23b9d5fa
     core_resources: 000000000000000000000000000000000000000000000000000000000a550c18
+    deployer: b31e712b26fd295357355f6845e77c888298636609e93bc9b05f0f604049f434
+    price_feed: 515797702e215d28be31d8eefac1e6a82c70da38c114b79016988c3511ee7297
+    pyth: 7e783b349d3e89cf5931af376ebeadbfab855b3fa239b7ada8f5a92fbea6b387
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
+    wormhole: 5bc11445584a763c1fa7ed39081f1b920954da14e04b32440cba863d03e19625
     wrapped_coin: 5e156f1207d0ebfa19a9eeff00d62a282278fb8719f4fab3a586a0a2c0fffbea
-  source_digest: 4D6DD8916E2D3E3207BE1274AC971EBA0C2095A030B2EE9C78109C596B63A25F
+  source_digest: 97D304EF926C7D6B4046116E46916C071F8169F9775056E96F646934B469A6B9
   build_flags:
     dev_mode: false
     test_mode: false
@@ -22,14 +26,19 @@ compiled_package_info:
     install_dir: ~
     force_recompilation: false
     additional_named_addresses:
-      controller: 6a210bc15ccb5933db2a28c3fa5c470d7ac8d87178daee1876689ae4d80c0973
+      controller: a1eb5b8d88f1d3f9b50d0276ad8486ba878e6bd7cc36ba3d9671197a23b9d5fa
     architecture: ~
     fetch_deps_only: false
     skip_fetch_latest_git_deps: false
+    bytecode_version: ~
 dependencies:
   - AptosFramework
   - AptosStdlib
   - AptosToken
   - Collection
+  - Deployer
   - MoveStdlib
+  - PriceFeed
+  - Pyth
+  - Wormhole
   - WrappedCoin

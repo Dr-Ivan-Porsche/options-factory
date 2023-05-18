@@ -14,6 +14,8 @@ module aptos_framework::genesis {
     use aptos_framework::chain_status;
     use aptos_framework::coin;
     use aptos_framework::consensus_config;
+    use aptos_framework::execution_config;
+    use aptos_framework::create_signer::create_signer;
     use aptos_framework::gas_schedule;
     use aptos_framework::reconfiguration;
     use aptos_framework::stake;
@@ -66,6 +68,7 @@ module aptos_framework::genesis {
         chain_id: u8,
         initial_version: u64,
         consensus_config: vector<u8>,
+        execution_config: vector<u8>,
         epoch_interval_microsecs: u64,
         minimum_stake: u64,
         maximum_stake: u64,
@@ -97,11 +100,12 @@ module aptos_framework::genesis {
         let framework_reserved_addresses = vector<address>[@0x2, @0x3, @0x4, @0x5, @0x6, @0x7, @0x8, @0x9, @0xa];
         while (!vector::is_empty(&framework_reserved_addresses)) {
             let address = vector::pop_back<address>(&mut framework_reserved_addresses);
-            let (aptos_account, framework_signer_cap) = account::create_framework_reserved_account(address);
-            aptos_governance::store_signer_cap(&aptos_account, address, framework_signer_cap);
+            let (_, framework_signer_cap) = account::create_framework_reserved_account(address);
+            aptos_governance::store_signer_cap(&aptos_framework_account, address, framework_signer_cap);
         };
 
         consensus_config::initialize(&aptos_framework_account, consensus_config);
+        execution_config::set(&aptos_framework_account, execution_config);
         version::initialize(&aptos_framework_account, initial_version);
         stake::initialize(&aptos_framework_account);
         staking_config::initialize(
@@ -390,8 +394,6 @@ module aptos_framework::genesis {
         chain_status::set_genesis_end(aptos_framework);
     }
 
-    native fun create_signer(addr: address): signer;
-
     #[verify_only]
     use std::features;
 
@@ -401,6 +403,7 @@ module aptos_framework::genesis {
         chain_id: u8,
         initial_version: u64,
         consensus_config: vector<u8>,
+        execution_config: vector<u8>,
         epoch_interval_microsecs: u64,
         minimum_stake: u64,
         maximum_stake: u64,
@@ -424,6 +427,7 @@ module aptos_framework::genesis {
             chain_id,
             initial_version,
             consensus_config,
+            execution_config,
             epoch_interval_microsecs,
             minimum_stake,
             maximum_stake,
@@ -454,6 +458,7 @@ module aptos_framework::genesis {
             4u8, // TESTING chain ID
             0,
             x"12",
+            x"13",
             1,
             0,
             1,

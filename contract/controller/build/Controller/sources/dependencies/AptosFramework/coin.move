@@ -31,7 +31,7 @@ module aptos_framework::coin {
     /// `CoinType` hasn't been initialized as a coin
     const ECOIN_INFO_NOT_PUBLISHED: u64 = 3;
 
-    /// Account already has `CoinStore` registered for `CoinType`
+    /// Deprecated. Account already has `CoinStore` registered for `CoinType`
     const ECOIN_STORE_ALREADY_PUBLISHED: u64 = 4;
 
     /// Account hasn't registered `CoinStore` for `CoinType`
@@ -177,6 +177,10 @@ module aptos_framework::coin {
 
     /// Drains the aggregatable coin, setting it to zero and returning a standard coin.
     public(friend) fun drain_aggregatable_coin<CoinType>(coin: &mut AggregatableCoin<CoinType>): Coin<CoinType> {
+        spec {
+            // TODO: The data invariant is not properly assumed from CollectedFeesPerBlock.
+            assume aggregator::spec_get_limit(coin.value) == MAX_U64;
+        };
         let amount = aggregator::read(&coin.value);
         assert!(amount <= MAX_U64, error::out_of_range(EAGGREGATABLE_COIN_VALUE_TOO_LARGE));
 
@@ -229,26 +233,31 @@ module aptos_framework::coin {
         borrow_global<CoinStore<CoinType>>(owner).coin.value
     }
 
+    #[view]
     /// Returns `true` if the type `CoinType` is an initialized coin.
     public fun is_coin_initialized<CoinType>(): bool {
         exists<CoinInfo<CoinType>>(coin_address<CoinType>())
     }
 
+    #[view]
     /// Returns `true` if `account_addr` is registered to receive `CoinType`.
     public fun is_account_registered<CoinType>(account_addr: address): bool {
         exists<CoinStore<CoinType>>(account_addr)
     }
 
+    #[view]
     /// Returns the name of the coin.
     public fun name<CoinType>(): string::String acquires CoinInfo {
         borrow_global<CoinInfo<CoinType>>(coin_address<CoinType>()).name
     }
 
+    #[view]
     /// Returns the symbol of the coin, usually a shorter version of the name.
     public fun symbol<CoinType>(): string::String acquires CoinInfo {
         borrow_global<CoinInfo<CoinType>>(coin_address<CoinType>()).symbol
     }
 
+    #[view]
     /// Returns the number of decimals used to get its user representation.
     /// For example, if `decimals` equals `2`, a balance of `505` coins should
     /// be displayed to a user as `5.05` (`505 / 10 ** 2`).
@@ -256,6 +265,7 @@ module aptos_framework::coin {
         borrow_global<CoinInfo<CoinType>>(coin_address<CoinType>()).decimals
     }
 
+    #[view]
     /// Returns the amount of coin in existence.
     public fun supply<CoinType>(): Option<u128> acquires CoinInfo {
         let maybe_supply = &borrow_global<CoinInfo<CoinType>>(coin_address<CoinType>()).supply;
@@ -462,8 +472,8 @@ module aptos_framework::coin {
         spec {
             assume dst_coin.value + source_coin.value <= MAX_U64;
         };
-        dst_coin.value = dst_coin.value + source_coin.value;
-        let Coin { value: _ } = source_coin;
+        let Coin { value } = source_coin;
+        dst_coin.value = dst_coin.value + value;
     }
 
     /// Mint new `Coin` with capability.
@@ -488,10 +498,10 @@ module aptos_framework::coin {
 
     public fun register<CoinType>(account: &signer) {
         let account_addr = signer::address_of(account);
-        assert!(
-            !is_account_registered<CoinType>(account_addr),
-            error::already_exists(ECOIN_STORE_ALREADY_PUBLISHED),
-        );
+        // Short-circuit and do nothing if account is already registered for CoinType.
+        if (is_account_registered<CoinType>(account_addr)) {
+            return
+        };
 
         account::register_coin<CoinType>(account_addr);
         let coin_store = CoinStore<CoinType> {
@@ -1035,6 +1045,24 @@ module aptos_framework::coin {
     fun destroy_aggregatable_coin_for_test<CoinType>(aggregatable_coin: AggregatableCoin<CoinType>) {
         let AggregatableCoin { value } = aggregatable_coin;
         aggregator::destroy(value);
+    }
+
+    #[test(framework = @aptos_framework)]
+    public entry fun test_register_twice_should_not_fail(framework: &signer) {
+        let framework_addr = signer::address_of(framework);
+        account::create_account_for_test(framework_addr);
+        let (burn_cap, freeze_cap, mint_cap) = initialize_and_register_fake_money(framework, 1, true);
+
+        // Registering twice should not fail.
+        assert!(is_account_registered<FakeMoney>(@0x1), 0);
+        register<FakeMoney>(framework);
+        assert!(is_account_registered<FakeMoney>(@0x1), 1);
+
+        move_to(framework, FakeMoneyCapabilities {
+            burn_cap,
+            freeze_cap,
+            mint_cap,
+        });
     }
 
     #[test(framework = @aptos_framework)]
