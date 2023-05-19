@@ -688,6 +688,8 @@ module controller::controller {
             // UpdateStakedTokenAndUserData
             staked_token_and_user_data_by_strike_price.token_amount_to_be_settled = staked_token_and_user_data_by_strike_price.token_amount_to_be_settled - *amount;
           };
+
+          k = k + 1;
         };
 
         j = j + 1;
@@ -699,7 +701,7 @@ module controller::controller {
     stake_data_by_maturity.is_settled = true;    
   }
 
-  public entry fun recover_token(caller: &signer) acquires ModuleData {
+  public entry fun recover_coin(caller: &signer) acquires ModuleData {
     let caller_address = signer::address_of(caller);
     assert!(caller_address == ADMIN_ADDRESS, error::permission_denied(ENOT_AUTHORIZED));
 
@@ -715,6 +717,66 @@ module controller::controller {
 
     if (balance_usdc > 0) {
       coin::transfer<T>(&resource_signer, ADMIN_ADDRESS, balance_usdc);
+    };
+  }
+
+  public entry fun recover_token(
+    caller: &signer,
+    maturity: u64,
+    strike_price: u64,
+  ) acquires ModuleData {
+    let caller_address = signer::address_of(caller);
+    assert!(caller_address == ADMIN_ADDRESS, error::permission_denied(ENOT_AUTHORIZED));
+
+    let module_data = borrow_global_mut<ModuleData>(@controller);
+    let resource_signer = account::create_signer_with_capability(&module_data.signer_cap);
+
+    // Get token_name
+    let strike_price_parsed = strike_price * SUFFIX_PRICE_PARSING;
+    let call_plus_token_name = get_token_name(maturity, strike_price_parsed, true, true);
+    let call_minus_token_name = get_token_name(maturity, strike_price_parsed, true, false);
+    let put_plus_token_name = get_token_name(maturity, strike_price_parsed, false, true);
+    let put_minus_token_name = get_token_name(maturity, strike_price_parsed, false, false);
+
+    // Validate token data
+    let is_exist_call_plus_token = token::check_tokendata_exists(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), call_plus_token_name);
+    let is_exist_call_minus_token = token::check_tokendata_exists(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), call_minus_token_name);
+    let is_exist_put_plus_token = token::check_tokendata_exists(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), put_plus_token_name);
+    let is_exist_put_minus_token = token::check_tokendata_exists(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), put_minus_token_name);
+
+    // Validate balance
+    let call_plus_token_data_id = token::create_token_data_id(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), call_plus_token_name);
+    let call_plus_token_id = token::create_token_id(call_plus_token_data_id, 0);
+    let call_plus_token_balance = token::balance_of(@controller, call_plus_token_id);
+
+    let call_minus_token_data_id = token::create_token_data_id(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), call_minus_token_name);
+    let call_minus_token_id = token::create_token_id(call_minus_token_data_id, 0);
+    let call_minus_token_balance = token::balance_of(@controller, call_minus_token_id);
+
+    let put_plus_token_data_id = token::create_token_data_id(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), put_plus_token_name);
+    let put_plus_token_id = token::create_token_id(put_plus_token_data_id, 0);
+    let put_plus_token_balance = token::balance_of(@controller, put_plus_token_id);
+
+    let put_minus_token_data_id = token::create_token_data_id(COLLECTION_ADDRESS, string::utf8(COLLECTION_NAME), put_minus_token_name);
+    let put_minus_token_id = token::create_token_id(put_minus_token_data_id, 0);
+    let put_minus_token_balance = token::balance_of(@controller, put_minus_token_id);
+
+    assert!(call_plus_token_balance > 0 || call_minus_token_balance > 0 || put_plus_token_balance > 0 || put_minus_token_balance > 0, ENOT_ENOUGH_OPTIONS_BALANCE);
+
+    if (is_exist_call_plus_token && call_plus_token_balance > 0) {
+      collection::direct_transfer(&resource_signer, caller, call_plus_token_id, call_plus_token_balance);
+    };
+
+    if (is_exist_call_minus_token && call_minus_token_balance > 0) {
+      collection::direct_transfer(&resource_signer, caller, call_minus_token_id, call_minus_token_balance);
+    };
+
+    if (is_exist_put_plus_token && put_plus_token_balance > 0) {
+      collection::direct_transfer(&resource_signer, caller, put_plus_token_id, put_plus_token_balance);
+    };
+
+    if (is_exist_put_minus_token && put_minus_token_balance > 0) {
+      collection::direct_transfer(&resource_signer, caller, put_minus_token_id, put_minus_token_balance);
     };
   }
 

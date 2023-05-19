@@ -34,7 +34,7 @@ module.exports.settleOptions = async (event) => {
     sender,
     new TxnBuilderTypes.TransactionPayloadEntryFunction(
       TxnBuilderTypes.EntryFunction.natural(
-        "a1eb5b8d88f1d3f9b50d0276ad8486ba878e6bd7cc36ba3d9671197a23b9d5fa::controller",
+        "5f398a36f77b9dcf49a3845697ef5bb012d4d5d21baabf3af7ffd9c1e8b42075::controller",
         "settle_staked_options",
         [],
         [BCS.bcsSerializeUint64(timestamp)]
